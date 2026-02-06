@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 
-
-
 @Controller
 public class BookController {
 
@@ -44,5 +42,17 @@ public class BookController {
         return "redirect:/booklist";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editBook(@PathVariable("id") Long id, Model model) {
+        Book book = repository.findById(id).orElse(null);
+        model.addAttribute("book", book);
+            return "editbook";
+    }
+
+    @PostMapping("/edit")
+    public String updateBook(Book book) {
+        repository.save(book);
+        return "redirect:/booklist";
+    }
 }
 
