@@ -18,9 +18,10 @@ public class BackendApplication {
 	@Bean
 	public CommandLineRunner demo(BookRepository repository) {
 	return (args) -> {
-	  Book b = new Book("Testi", "Phong Nguyen", 2026, "12345", 25.50);
-
-	  repository.save(b);
+	  Book b1 = new Book("Testi", "Phong Nguyen", 2026, "12345");
+		Book b2 = new Book("Testi2", "Lauri", 2025, "54321");
+	  repository.save(b1);
+		repository.save(b2);
 	};
 }
 
