@@ -25,7 +25,7 @@ public class BookController {
         }
 
     @GetMapping("/delete/{id}")
-    public String deleteBook(@PathVariable("id") Long id, Model model) {
+    public String deleteBook(@PathVariable("id") Long id) {
         repository.deleteById(id);
         return "redirect:/booklist";
     }
