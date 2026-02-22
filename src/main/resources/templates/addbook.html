@@ -23,7 +23,19 @@
             <label for="publicationYear">Publication Year:</label>
             <input type="number" id="publicationYear" th:field="*{publicationYear}" required/>
         </div>
-        <input type="submit" class="btn btn-succes" value="Add Book"/>
+
+          <div class="form-group">
+            <label for="category">Category:</label>
+            <select id="category" th:field ="*{category.categoryId}" required>
+                <option value="">Select a category</option>
+                <option th:each="c : ${categories}"
+                    th:value="${c.categoryId}"
+                    th:text="${c.name}">
+                </option>
+            </select>
+        </div>
+
+        <input type="submit" class="btn btn-success" value="Add Book"/>
     </form>
 </body>
 </html>

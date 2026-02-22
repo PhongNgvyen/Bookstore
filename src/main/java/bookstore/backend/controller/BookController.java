@@ -7,16 +7,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import bookstore.backend.domain.BookRepository;
+import bookstore.backend.domain.CategoryRepository;
 import bookstore.backend.domain.Book;
 import org.springframework.web.bind.annotation.PostMapping;
-
-
 
 @Controller
 public class BookController {
 
     @Autowired
     private BookRepository repository;
+
+    @Autowired
+    private CategoryRepository crepository;
 
     @GetMapping("/booklist")
     public String getBookList(Model model) {
@@ -33,6 +35,7 @@ public class BookController {
     @GetMapping("/add")
     public String addBooks(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("categories", crepository.findAll());
         return "addbook";
     }
 
@@ -46,6 +49,7 @@ public class BookController {
     public String editBook(@PathVariable("id") Long id, Model model) {
         Book book = repository.findById(id).orElse(null);
         model.addAttribute("book", book);
+        model.addAttribute("categories", crepository.findAll());
             return "editbook";
     }
 
@@ -55,4 +59,3 @@ public class BookController {
         return "redirect:/booklist";
     }
 }
-

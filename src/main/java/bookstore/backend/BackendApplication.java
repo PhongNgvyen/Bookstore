@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 
 import bookstore.backend.domain.Book;
 import bookstore.backend.domain.BookRepository;
+import bookstore.backend.domain.Category;
+import bookstore.backend.domain.CategoryRepository;
 
 @SpringBootApplication
 public class BackendApplication {
@@ -16,12 +18,25 @@ public class BackendApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(BookRepository repository) {
+	public CommandLineRunner demo(BookRepository brepository, CategoryRepository crepository) {
 	return (args) -> {
-	  Book b1 = new Book("Testi", "Phong Nguyen", 2026, "12345");
-		Book b2 = new Book("Testi2", "Lauri", 2025, "54321");
-	  repository.save(b1);
-		repository.save(b2);
+		Category c1 = new Category("Math");
+		Category c2 = new Category("History");
+		Category c3 = new Category("IT");
+
+		crepository.save(c1);
+		crepository.save(c2);
+		crepository.save(c3);
+
+	  	Book b1 = new Book("Testi", "Phong Nguyen", 2026, "12345");
+		b1.setCategory(c1);
+
+		Book b2 = new Book("Testi2", "zzzz", 2025, "54321");
+		b2.setCategory(c3);
+
+
+	  	brepository.save(b1);
+		brepository.save(b2);
 	};
 }
 

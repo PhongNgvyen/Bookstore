@@ -16,6 +16,19 @@
         <input type="text" th:field="*{isbn}" />
         <label>Publication Year:</label>
         <input type="number" th:field="*{publicationYear}" />
+
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select id="category" th:field ="*{category.categoryId}" required>
+                <option value="">Select a category </option>
+                <option th:each="c : ${categories}"
+                    th:value="${c.categoryId}"
+                    th:text="${c.name}">
+                </option>
+            </select>
+        </select>
+        </div>
+
         <button type="submit">Update Book</button>
     </form>
 
