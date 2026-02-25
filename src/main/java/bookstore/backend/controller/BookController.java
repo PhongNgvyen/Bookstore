@@ -1,5 +1,8 @@
 package bookstore.backend.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +13,12 @@ import bookstore.backend.domain.BookRepository;
 import bookstore.backend.domain.CategoryRepository;
 import bookstore.backend.domain.Book;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class BookController {
@@ -57,5 +66,23 @@ public class BookController {
     public String updateBook(Book book) {
         repository.save(book);
         return "redirect:/booklist";
+    }
+
+// RESTful service to get all books
+    @RequestMapping(value = "/books", method = RequestMethod.GET)
+        public @ResponseBody List<Book> findAllBooksRest(){
+            return(List<Book>) repository.findAll();
+        }
+
+// RESTful service to get book by ID
+    @RequestMapping(value = "/books/{id}", method=RequestMethod.GET)
+    public @ResponseBody Optional<Book> getOneBookRest(@PathVariable(name = "id") Long id){
+        return repository.findById(id);
+        }
+
+// RESTful service to save new student
+    @RequestMapping(value="/books", method = RequestMethod.POST)
+    public @ResponseBody Book saveBooksRest(@RequestBody Book book) {
+    	return repository.save(book);
     }
 }
