@@ -1,33 +1,53 @@
 <!DOCTYPE html>
-<html xmlns:th ="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
 <head>
     <title>Book List</title>
     <meta charset="UTF-8">
 </head>
 <body>
-    <h1>Books</h1>
-    <table class="table table-striped">
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>ISBN</th>
-            <th>Publication Year</th>
-            <th>Category</th>
-        </tr>
+    <div class="container mt-3">
+        <h1>Books</h1>
+
+        <p>
+            Logged in as: <span th:text="${#authentication.name}"></span>
+        </p>
+
+        <form th:action="@{/logout}" method="post" style="margin-bottom: 15px;">
+            <input type="submit" value="Logout" class="btn btn-secondary">
+        </form>
+
+        <table class="table table-striped">
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Publication Year</th>
+                <th>Category</th>
+                <th sec:authorize="hasRole('ADMIN')">Delete</th>
+                <th>Edit</th>
+            </tr>
+
             <tr th:each="book : ${books}">
                 <td th:text="${book.title}">Book Title</td>
                 <td th:text="${book.author}">Book Author</td>
                 <td th:text="${book.isbn}">Book ISBN</td>
                 <td th:text="${book.publicationYear}">Book Year</td>
+                <td th:text="${book.category != null ? book.category.name : ''}"></td>
 
-                <td th:text = "${book.category != null ? book.category.name : ''}"></td>
+                <td sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/delete/{id}(id=${book.id})}" class="btn btn-danger">Delete</a>
+                </td>
 
-                <td><a th:href="@{/delete/{id}(id=${book.id})}" class = "btn btn-danger">Delete</a></td>
-                <td><a th:href="@{/edit/{id}(id=${book.id})}">Edit</a></td>
+                <td>
+                    <a th:href="@{/edit/{id}(id=${book.id})}" class="btn btn-warning">Edit</a>
+                </td>
             </tr>
-    </table>
-    <a href="/add" class="btn btn-primary">Add Book</a>
+        </table>
+
+        <a href="/add" class="btn btn-primary">Add Book</a>
+    </div>
 </body>
 </html>
 
